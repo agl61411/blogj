@@ -1,4 +1,4 @@
-package com.yi.blogj.utils;
+package com.yi.blogj.dto;
 
 import com.yi.blogj.enums.RConstants;
 
@@ -15,6 +15,9 @@ public class Result {
 
     private Result() {}
 
+    public static Result ok(String msg) {
+        return new Result(RConstants.OK.getCode(), msg, null);
+    }
     public static Result ok(Object data, String msg) {
         return new Result(RConstants.OK.getCode(), msg, data);
     }
@@ -24,8 +27,11 @@ public class Result {
     public static Result fail() {
         return new Result(RConstants.FAIL.getCode(), RConstants.FAIL.getMsg(), null);
     }
-    public static Result fail(int code, String msg) {
+    public static Result fail(Integer code, String msg) {
         return new Result(code, msg, null);
+    }
+    public static Result fail(String msg) {
+        return new Result(RConstants.FAIL.getCode(), msg, null);
     }
 
     public Object getData() {

@@ -7,30 +7,14 @@ public class Account extends BaseInfo {
     private String username;
     private String password;
     private String avatar;
-    private String pickname;
+    private String nickname;
+    
+    public String getUsername() {
+        return username;
+    }
 
-    public Account(String username, String password) {
+    public void setUsername(String username) {
         this.username = username;
-        this.password = password;
-    }
-
-    public Account() {
-    }
-
-    public String getPickname() {
-        return pickname;
-    }
-
-    public void setPickname(String pickname) {
-        this.pickname = pickname;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public String getPassword() {
@@ -41,11 +25,29 @@ public class Account extends BaseInfo {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
+
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public Account(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public Account() {
+    }
+
 }

@@ -1,36 +1,37 @@
 package com.yi.blogj.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class BaseInfo implements Serializable {
 
     private static final long serialVersionUID = 56230136917205108L;
     
-    private String id;
-    private String creationtime;
-    private String modifiedTime;
+    private Long id;
+    private Date creationtime;
+    private Date modifiedtime;
     private Boolean deprecated;
     
     public BaseInfo() {
     }
     
-    public String getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
-    public String getCreationtime() {
+    public Date getCreationtime() {
         return creationtime;
     }
-    public void setCreationtime(String creationtime) {
+    public void setCreationtime(Date creationtime) {
         this.creationtime = creationtime;
     }
-    public String getModifiedTime() {
-        return modifiedTime;
+    public Date getModifiedtime() {
+        return modifiedtime;
     }
-    public void setModifiedTime(String modifiedTime) {
-        this.modifiedTime = modifiedTime;
+    public void setModifiedtime(Date modifiedtime) {
+        this.modifiedtime = modifiedtime;
     }
     public Boolean getDeprecated() {
         return deprecated;
