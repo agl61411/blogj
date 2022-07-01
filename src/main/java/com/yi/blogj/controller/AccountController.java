@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yi.blogj.dto.LoginDto;
 import com.yi.blogj.dto.Result;
 import com.yi.blogj.model.Account;
 import com.yi.blogj.service.AccountService;
@@ -17,6 +18,11 @@ public class AccountController {
     
     @Autowired
     private AccountService accountService;
+
+    @PostMapping("/login")
+    public Result login(@RequestBody LoginDto login) {
+        return accountService.login(login);
+    }
 
     @PostMapping("/register")
     public Result register(@RequestBody Account account) {

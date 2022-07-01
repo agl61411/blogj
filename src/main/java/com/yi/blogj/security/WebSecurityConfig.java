@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -12,8 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
@@ -27,12 +26,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @Autowired
-    private AuthenticationSuccessHandler successHandler;
-
-    @Autowired
-    private AuthenticationFailureHandler failureHandler;
 
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
@@ -60,14 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .cors()
             .and()
             .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/account/register").permitAll()
+            .antMatchers(HttpMethod.POST, "/account/login", "/account/register").permitAll()
             .anyRequest().authenticated()
-            .and()
-            .formLogin()
-            .permitAll()
-            .loginProcessingUrl("/process")
-            .successHandler(successHandler)
-            .failureHandler(failureHandler)
             .and()
             .exceptionHandling()
             .accessDeniedHandler(accessDeniedHandler)
@@ -77,5 +64,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .permitAll()
             .logoutSuccessHandler(logoutSuccessHandler)
             .deleteCookies("JSESSIONID");
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }
