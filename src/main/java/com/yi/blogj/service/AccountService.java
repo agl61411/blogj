@@ -9,5 +9,7 @@ public interface AccountService {
     Result register(Account account);
 
     Result login(LoginDto login);
+
+    Result logout();
     
 }

@@ -29,6 +29,11 @@ public class AccountController {
         return accountService.register(account);
     }
 
+    @PostMapping("/logout")
+    public Result logout() {
+        return accountService.logout();
+    }
+
     @GetMapping("/test")
     public Result test() {
         return Result.ok("testtest");

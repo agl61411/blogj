@@ -10,10 +10,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,13 +29,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    private LogoutSuccessHandler logoutSuccessHandler;
-
-    @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+        return new JwtAuthenticationFilter(authenticationManagerBean());
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -53,17 +56,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .cors()
             .and()
             .authorizeRequests()
-            .antMatchers(HttpMethod.POST, "/account/login", "/account/register").permitAll()
+            .antMatchers(HttpMethod.POST, "/account/login", "/account/register", "/account/logout").permitAll()
             .anyRequest().authenticated()
             .and()
             .exceptionHandling()
             .accessDeniedHandler(accessDeniedHandler)
             .authenticationEntryPoint(authenticationEntryPoint)
             .and()
-            .logout()
-            .permitAll()
-            .logoutSuccessHandler(logoutSuccessHandler)
-            .deleteCookies("JSESSIONID");
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
