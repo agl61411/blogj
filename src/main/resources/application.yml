@@ -22,3 +22,4 @@ mybatis:
 logging:
   level:
     '[com.yi.blogj.dao]': debug
+    '[org.springframework]': debug
