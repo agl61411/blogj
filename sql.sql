@@ -55,6 +55,6 @@ create table `diary` (
     `modifiedtime` datetime default current_timestamp on update current_timestamp comment '更新时间',
     `deprecated` tinyint(1) unsigned not null default '0' comment '是否弃用 0否 1是',
     `content` text comment '内容',
-    `account_name` varchar(50) not null comment '关联用户',
+    `account_id` bigint(20) not null comment '关联用户',
     primary key (`id`)
 ) engine=innodb default charset=utf8mb4 comment='diary';

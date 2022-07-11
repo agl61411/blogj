@@ -7,24 +7,24 @@ public class Blog extends BaseInfo {
     private String title;
     private String content;
     private String tags;
-    private String accountName;
+    private String accountId;
 
-    public Blog(String title, String content, String tags, String accountName) {
+    public Blog(String title, String content, String tags, String accountId) {
         this.title = title;
         this.content = content;
         this.tags = tags;
-        this.accountName = accountName;
+        this.accountId = accountId;
     }
 
     public Blog() {
     }
 
     public String getAccountName() {
-        return accountName;
+        return accountId;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
+    public void setAccountName(String accountId) {
+        this.accountId = accountId;
     }
 
     public String getTags() {

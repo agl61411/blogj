@@ -2,6 +2,7 @@ package com.yi.blogj.utils;
 
 import java.security.KeyPair;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 import com.google.gson.Gson;
@@ -19,7 +20,7 @@ public class JwtUtil {
     public static final Long ACCESS_TTL = 86400000L;
     public static final Long REFRESH_TTL = 604800000L;
 
-    public static AccountToken create(String username, Long ttlMillis) {
+    public static AccountToken create(String username, Map<String, Object> map, Long ttlMillis) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
         if (ttlMillis == null) {
@@ -31,16 +32,17 @@ public class JwtUtil {
         Date refreshDate = new Date(refreshExpMillis);
 
         AccountToken accountToken = new AccountToken(
-            createJwt(username, now, accessDate),
-            createJwt(username, now, refreshDate),
+            createJwt(username, now, accessDate, map),
+            createJwt(username, now, refreshDate, map),
             username
         );
 
         return accountToken;
     }
 
-    private static String createJwt(String subject, Date issuedAt, Date expiration) {
+    private static String createJwt(String subject, Date issuedAt, Date expiration, Map<String, Object> map) {
         return Jwts.builder()
+            .setClaims(map)
             .setId(UUID.randomUUID().toString())
             .setSubject(subject)
             .setIssuedAt(issuedAt)

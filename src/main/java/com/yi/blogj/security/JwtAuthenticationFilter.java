@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import com.google.gson.Gson;
 import com.yi.blogj.dao.AccountTokenDao;
 import com.yi.blogj.dto.Result;
+import com.yi.blogj.model.Account;
 import com.yi.blogj.model.AccountToken;
 import com.yi.blogj.utils.JwtUtil;
 
@@ -64,6 +65,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                 throw new InsufficientAuthenticationException("请先登录");
             }
         } else {
+            Account account = claims.get("account", Account.class);
             UsernamePasswordAuthenticationToken authentication = 
                 new UsernamePasswordAuthenticationToken(claims.getSubject(), null, Collections.emptyList());
             SecurityContextHolder.getContext().setAuthentication(authentication);

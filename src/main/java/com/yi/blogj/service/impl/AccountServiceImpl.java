@@ -1,5 +1,8 @@
 package com.yi.blogj.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -63,7 +66,11 @@ public class AccountServiceImpl implements AccountService {
             result = Result.fail("登录失败");
         }
 
-        AccountToken accountToken = JwtUtil.create(login.getUsername(), null);
+        Account account = accountDao.findAccountByUsername(login.getUsername());
+        account.setPassword(null);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("account", account);
+        AccountToken accountToken = JwtUtil.create(login.getUsername(), map, null);
         
         AccountToken aToken = accountTokenDao.findByUsername(login.getUsername());
         if (aToken == null) {
