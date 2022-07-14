@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
 import com.yi.blogj.dao.AccountDao;
 import com.yi.blogj.dao.AccountTokenDao;
 import com.yi.blogj.dto.LoginDto;
@@ -69,7 +70,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountDao.findAccountByUsername(login.getUsername());
         account.setPassword(null);
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("account", account);
+        map.put("account", new Gson().toJson(account));
         AccountToken accountToken = JwtUtil.create(login.getUsername(), map, null);
         
         AccountToken aToken = accountTokenDao.findByUsername(login.getUsername());

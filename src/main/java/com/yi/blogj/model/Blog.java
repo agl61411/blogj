@@ -7,9 +7,9 @@ public class Blog extends BaseInfo {
     private String title;
     private String content;
     private String tags;
-    private String accountId;
+    private Long accountId;
 
-    public Blog(String title, String content, String tags, String accountId) {
+    public Blog(String title, String content, String tags, Long accountId) {
         this.title = title;
         this.content = content;
         this.tags = tags;
@@ -19,11 +19,11 @@ public class Blog extends BaseInfo {
     public Blog() {
     }
 
-    public String getAccountName() {
+    public Long getAccountId() {
         return accountId;
     }
 
-    public void setAccountName(String accountId) {
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
 

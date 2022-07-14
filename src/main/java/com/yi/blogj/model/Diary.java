@@ -5,22 +5,22 @@ public class Diary extends BaseInfo {
     private static final long serialVersionUID = -5485748552316083897L;
 
     private String content;
-    private String accountName;
-
-    public Diary(String content, String accountName) {
-        this.content = content;
-        this.accountName = accountName;
-    }
-
+    private Long accountId;
+    
     public Diary() {
     }
 
-    public String getAccountName() {
-        return accountName;
+    public Diary(String content, Long accountId) {
+        this.content = content;
+        this.accountId = accountId;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 
     public String getContent() {
@@ -30,5 +30,4 @@ public class Diary extends BaseInfo {
     public void setContent(String content) {
         this.content = content;
     }
-    
 }

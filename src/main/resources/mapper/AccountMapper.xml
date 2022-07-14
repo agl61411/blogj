@@ -5,7 +5,7 @@
 <mapper namespace="com.yi.blogj.dao.AccountDao">
     <select id="findAccountByUsername" resultType="com.yi.blogj.model.Account">
         select
-            username, password
+            id, username, password
         from 
             account
         where 

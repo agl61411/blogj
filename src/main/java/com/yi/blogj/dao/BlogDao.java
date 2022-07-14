@@ -16,7 +16,7 @@ public interface BlogDao {
 
     void deleteById(Long id);
 
-    void update(Long id, Blog blog);
+    void update(Blog blog);
 
     List<List<Object>> search(Map<String, Object> map);
     

@@ -34,7 +34,7 @@ public class BlogController {
     }
 
     @PutMapping("/{id}")
-    public Result update(@PathVariable("id") Long id, Blog blog) {
+    public Result update(@PathVariable("id") Long id, @RequestBody Blog blog) {
         return blogService.update(id, blog);
     }
 

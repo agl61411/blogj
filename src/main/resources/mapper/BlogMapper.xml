@@ -16,7 +16,7 @@
         insert into 
             blog(title, content, tags, account_id) 
         values 
-            (#{title}, #{content}, #{tags}, #{account_id})
+            (#{title}, #{content}, #{tags}, #{accountId})
     </insert>
 
     <update id="update" parameterType="com.yi.blogj.model.Blog" flushCache="true">
@@ -61,23 +61,8 @@
         where 
             deprecated = 0 and account_id = #{accountId}
         order by creationtime desc
-        limit
-        <choose>
-            <when test="page!=null">
-                #{page},
-            </when>
-            <otherwise>
-                0,
-            </otherwise>
-        </choose>
-        <choose>
-            <when test="size!=null">
-                #{size},
-            </when>
-            <otherwise>
-                10
-            </otherwise>
-        </choose>;
+        limit 
+            #{page}, #{size};
         select found_rows() as count;
     </select>
 </mapper>

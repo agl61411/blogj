@@ -1,5 +1,6 @@
 package com.yi.blogj.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.yi.blogj.dao.BlogDao;
+import com.yi.blogj.dto.PageInfo;
 import com.yi.blogj.dto.Result;
+import com.yi.blogj.model.Account;
 import com.yi.blogj.model.Blog;
 import com.yi.blogj.service.BlogService;
 
@@ -44,7 +47,8 @@ public class BlogServiceImpl implements BlogService {
         if (findBlog == null) {
             result = Result.fail("blog不存在");
         } else {
-            blogDao.update(id, blog);
+            blog.setId(id);
+            blogDao.update(blog);
             result = Result.ok("更新成功");
         }
         return result;
@@ -57,11 +61,25 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Result search(Map<String, Object> map) {
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        map.put("accountName", username);
+        Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int page = map.get("page") != null ? (int) map.get("page") : 1;
+        int size = map.get("size") != null ? (int) map.get("size") : 10;
         
-        List<List<Object>> list = blogDao.search(map);
-        return null;
+        Map<String, Object> search = new HashMap<String, Object>();
+        search.put("accountId", account.getId());
+        search.put("page", page - 1);
+        search.put("size", size);
+        List<List<Object>> list = blogDao.search(search);
+
+        PageInfo pageInfo = new PageInfo();
+        Integer total =  (Integer) list.get(1).get(0);
+        pageInfo.setData(list.get(0));
+        pageInfo.setTotal(total);
+        pageInfo.setPage(page);
+        pageInfo.setSize(size);
+        pageInfo.setTotolPage((int) Math.ceil(total * 1.0 / size));
+
+        return Result.ok(pageInfo);
     }
     
 }

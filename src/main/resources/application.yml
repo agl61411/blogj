@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   jackson:
-    default-property-inclusion: NON_EMPTY
+    default-property-inclusion: non-null
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -22,4 +22,4 @@ mybatis:
 logging:
   level:
     '[com.yi.blogj.dao]': debug
-    '[org.springframework]': debug
+    # '[org.springframework]': debug

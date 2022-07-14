@@ -43,7 +43,7 @@ create table `blog` (
     `title` varchar(50) comment '标题',
     `content` text comment '内容',
     `tags` varchar(255) comment '标签',
-    `account_name` varchar(50) not null comment '关联用户',
+    `account_id` bigint(20) not null comment '关联用户',
     primary key (`id`)
 ) engine=innodb default charset=utf8mb4 comment='blog';
 

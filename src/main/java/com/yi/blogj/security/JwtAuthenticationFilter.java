@@ -65,9 +65,9 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
                 throw new InsufficientAuthenticationException("请先登录");
             }
         } else {
-            Account account = claims.get("account", Account.class);
+            Account account = new Gson().fromJson((String) claims.get("account"), Account.class);
             UsernamePasswordAuthenticationToken authentication = 
-                new UsernamePasswordAuthenticationToken(claims.getSubject(), null, Collections.emptyList());
+                new UsernamePasswordAuthenticationToken(account, null, Collections.emptyList());
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             chain.doFilter(request, response);
