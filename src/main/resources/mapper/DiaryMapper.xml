@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yi.blogj.dao.DiaryDao">
+    <select id="findDiaryByTime" resultType="com.yi.blogj.model.Diary">
+        select
+            id, creationtime, modifiedtime, content, account_id
+        from 
+            diary
+        where 
+            diary_time = #{diaryTime} and deprecated = 0
+    </select>
+
+    <select id="findDiaryById" resultType="com.yi.blogj.model.Diary">
+        select
+            id, creationtime, modifiedtime, content, account_id
+        from 
+            diary
+        where 
+            id = #{id} and deprecated = 0
+    </select>
+
+    <insert id="create" parameterType="com.yi.blogj.model.Diary" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+        insert into 
+            diary(content, account_id, diary_time) 
+        values 
+            (#{content}, #{accountId}, #{diaryTime})
+    </insert>
+
+    <update id="update" parameterType="com.yi.blogj.model.Diary" flushCache="true">
+        update diary set content = #{content} where id = #{id}
+    </update>
+
+    <update id="deleteById" parameterType="com.yi.blogj.model.Diary" flushCache="true">
+        update diary set deprecated = 1 where id = #{id}
+    </update>
+
+</mapper>

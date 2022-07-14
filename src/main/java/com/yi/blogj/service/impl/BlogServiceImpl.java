@@ -32,7 +32,7 @@ public class BlogServiceImpl implements BlogService {
         Blog blog = blogDao.findBlogById(id);
         Result result = null;
         if (blog == null) {
-            result = Result.fail("blog已删除");
+            result = Result.fail("blog不存在");
         } else {
             blogDao.deleteById(id);
             result = Result.ok("删除成功");
@@ -56,7 +56,14 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Result getBlog(Long id) {
-        return Result.ok(blogDao.findBlogById(id));
+        Blog blog = blogDao.findBlogById(id);
+        Result result = null;
+        if (blog == null) {
+            result = Result.fail("blog不存在");
+        } else {
+            result = Result.ok(blog);
+        }
+        return result;
     }
 
     @Override
