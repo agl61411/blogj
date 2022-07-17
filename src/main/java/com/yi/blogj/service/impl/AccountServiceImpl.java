@@ -89,9 +89,15 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Result logout() {
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        accountTokenDao.update(new AccountToken(null, null, username));
+        Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        accountTokenDao.update(new AccountToken(null, null, account.getUsername()));
         return Result.ok("登出成功");
+    }
+
+    @Override
+    public Result profile() {
+        Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return Result.ok(accountDao.findAccountById(account.getId()));
     }
     
 }

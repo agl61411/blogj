@@ -11,5 +11,7 @@ public interface AccountService {
     Result login(LoginDto login);
 
     Result logout();
+
+    Result profile();
     
 }

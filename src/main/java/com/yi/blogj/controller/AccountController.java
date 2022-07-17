@@ -35,9 +35,8 @@ public class AccountController {
         return accountService.logout();
     }
 
-    @GetMapping("/test")
-    public Result test() {
-        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return Result.ok("testtest");
+    @GetMapping("/profile")
+    public Result profile() {
+        return accountService.profile();
     }
 }   
