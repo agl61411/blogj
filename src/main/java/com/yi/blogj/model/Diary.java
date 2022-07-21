@@ -1,16 +1,14 @@
 package com.yi.blogj.model;
 
-import java.util.Date;
-
 public class Diary extends BaseInfo {
 
     private static final long serialVersionUID = -5485748552316083897L;
 
     private String content;
-    private Date diaryTime;
+    private String diaryTime;
     private Long accountId;
     
-    public Diary(String content, Date diaryTime, Long accountId) {
+    public Diary(String content, String diaryTime, Long accountId) {
         this.content = content;
         this.diaryTime = diaryTime;
         this.accountId = accountId;
@@ -19,11 +17,11 @@ public class Diary extends BaseInfo {
     public Diary() {
     }
 
-    public Date getDiaryTime() {
+    public String getDiaryTime() {
         return diaryTime;
     }
 
-    public void setDiaryTime(Date diaryTime) {
+    public void setDiaryTime(String diaryTime) {
         this.diaryTime = diaryTime;
     }
 

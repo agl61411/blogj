@@ -9,7 +9,7 @@
         from 
             diary
         where 
-            diary_time = #{diaryTime} and deprecated = 0
+            diary_time = #{diaryTime} and account_id = #{accountId} and deprecated = 0
     </select>
 
     <select id="findDiaryById" resultType="com.yi.blogj.model.Diary">
@@ -18,7 +18,7 @@
         from 
             diary
         where 
-            id = #{id} and deprecated = 0
+            id = #{id} and account_id = #{accountId} and deprecated = 0
     </select>
 
     <insert id="create" parameterType="com.yi.blogj.model.Diary" flushCache="true" useGeneratedKeys="true" keyProperty="id">
@@ -29,11 +29,11 @@
     </insert>
 
     <update id="update" parameterType="com.yi.blogj.model.Diary" flushCache="true">
-        update diary set content = #{content} where id = #{id}
+        update diary set content = #{content} where id = #{id} and account_id = #{accountId}
     </update>
 
     <update id="deleteById" parameterType="com.yi.blogj.model.Diary" flushCache="true">
-        update diary set deprecated = 1 where id = #{id}
+        update diary set deprecated = 1 where id = #{id} and account_id = #{accountId}
     </update>
 
 </mapper>

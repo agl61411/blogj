@@ -12,7 +12,7 @@ public interface BlogDao {
 
     void create(Blog blog);
 
-    Blog findBlogById(Long id);
+    Blog findBlogById(Long id, Long accountId);
 
     void deleteById(Long id);
 

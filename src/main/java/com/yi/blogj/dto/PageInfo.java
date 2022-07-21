@@ -6,14 +6,14 @@ public class PageInfo {
     
     private Integer page;
     private Integer size;
-    private Integer totolPage;
+    private Integer totalPage;
     private Integer total;
     private List<Object> data;
 
-    public PageInfo(Integer page, Integer size, Integer totolPage, Integer total, List<Object> data) {
+    public PageInfo(Integer page, Integer size, Integer totalPage, Integer total, List<Object> data) {
         this.page = page;
         this.size = size;
-        this.totolPage = totolPage;
+        this.totalPage = totalPage;
         this.total = total;
         this.data = data;
     }
@@ -33,11 +33,11 @@ public class PageInfo {
     public void setSize(Integer size) {
         this.size = size;
     }
-    public Integer getTotolPage() {
-        return totolPage;
+    public Integer getTotalPage() {
+        return totalPage;
     }
-    public void setTotolPage(Integer totolPage) {
-        this.totolPage = totolPage;
+    public void setTotalPage(Integer totalPage) {
+        this.totalPage = totalPage;
     }
     public Integer getTotal() {
         return total;

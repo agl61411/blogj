@@ -23,13 +23,16 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Result create(Blog blog) {
+        Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        blog.setAccountId(account.getId());
         blogDao.create(blog);
         return Result.ok("创建成功");
     }
 
     @Override
     public Result delete(Long id) {
-        Blog blog = blogDao.findBlogById(id);
+        Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Blog blog = blogDao.findBlogById(id, account.getId());
         Result result = null;
         if (blog == null) {
             result = Result.fail("blog不存在");
@@ -42,12 +45,14 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Result update(Long id, Blog blog) {
-        Blog findBlog = blogDao.findBlogById(id);
+        Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Blog findBlog = blogDao.findBlogById(id, account.getId());
         Result result = null;
         if (findBlog == null) {
             result = Result.fail("blog不存在");
         } else {
             blog.setId(id);
+            blog.setAccountId(account.getId());
             blogDao.update(blog);
             result = Result.ok("更新成功");
         }
@@ -56,7 +61,8 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Result getBlog(Long id) {
-        Blog blog = blogDao.findBlogById(id);
+        Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Blog blog = blogDao.findBlogById(id, account.getId());
         Result result = null;
         if (blog == null) {
             result = Result.fail("blog不存在");
@@ -84,7 +90,7 @@ public class BlogServiceImpl implements BlogService {
         pageInfo.setTotal(total);
         pageInfo.setPage(page);
         pageInfo.setSize(size);
-        pageInfo.setTotolPage((int) Math.ceil(total * 1.0 / size));
+        pageInfo.setTotalPage((int) Math.ceil(total * 1.0 / size));
 
         return Result.ok(pageInfo);
     }

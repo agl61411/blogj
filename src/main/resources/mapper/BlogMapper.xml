@@ -9,7 +9,7 @@
         from 
             blog
         where 
-            id = #{id} and deprecated = 0
+            id = #{id} and account_id = #{accountId} and deprecated = 0
     </select>
 
     <insert id="create" parameterType="com.yi.blogj.model.Blog" flushCache="true" useGeneratedKeys="true" keyProperty="id">
@@ -32,7 +32,7 @@
 				tags=#{tags}
 			</if>
         </set>
-        where id = #{id}
+        where id = #{id} and account_id = #{accountId}
     </update>
 
     <update id="deleteById" parameterType="com.yi.blogj.model.Blog" flushCache="true">

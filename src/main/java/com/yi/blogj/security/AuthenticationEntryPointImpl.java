@@ -47,7 +47,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
             //用户不存在
             result = Result.fail("用户名或密码错误，请重新输入");
         } else if (exception instanceof InsufficientAuthenticationException) {
-            result = Result.fail("请先登录");
+            result = Result.fail(40001, "请先登录");
         } else {
             //其他错误
             result = Result.fail("操作失败");
