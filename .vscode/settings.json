@@ -1,5 +1,6 @@
 {
   "editor.tabSize": 4,
   "java.configuration.updateBuildConfiguration": "automatic",
-  "java.settings.url": ".settings/org.eclipse.jdt.core.prefs"
+  "java.settings.url": ".settings/org.eclipse.jdt.core.prefs",
+  "java.compile.nullAnalysis.mode": "automatic"
 }
