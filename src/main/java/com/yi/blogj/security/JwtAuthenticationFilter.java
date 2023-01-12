@@ -57,6 +57,11 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         
         if (JwtUtil.isExpire(jwt)) {
             if (jwt.equals(accountToken.getAccessToken()) && !JwtUtil.isExpire(accountToken.getRefreshToken())) {
+                if ("/account/refreshToken".equals(request.getRequestURI())) {
+                    chain.doFilter(request, response);
+                    return;
+                }
+
                 response.setStatus(401);
                 response.setCharacterEncoding("utf-8");
                 response.setContentType("application/json;charset=utf-8");

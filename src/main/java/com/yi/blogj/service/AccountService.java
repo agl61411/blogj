@@ -13,5 +13,7 @@ public interface AccountService {
     Result logout();
 
     Result profile();
+
+    Result refreshToken(String jwt);
     
 }

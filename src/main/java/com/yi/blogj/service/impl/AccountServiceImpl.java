@@ -21,6 +21,8 @@ import com.yi.blogj.model.AccountToken;
 import com.yi.blogj.service.AccountService;
 import com.yi.blogj.utils.JwtUtil;
 
+import io.jsonwebtoken.Claims;
+
 @Service
 public class AccountServiceImpl implements AccountService {
 
@@ -98,6 +100,22 @@ public class AccountServiceImpl implements AccountService {
     public Result profile() {
         Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return Result.ok(accountDao.findAccountById(account.getId()));
+    }
+
+    @Override
+    public Result refreshToken(String jwt) {
+        Claims claims = JwtUtil.parse(jwt);
+        AccountToken accountToken = accountTokenDao.findByUsername(claims.getSubject());
+
+        Account account = accountDao.findAccountByUsername(accountToken.getUsername());
+        account.setPassword(null);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("account", new Gson().toJson(account));
+        AccountToken updateToken = JwtUtil.create(account.getUsername(), map, null);
+        accountTokenDao.update(updateToken);
+        updateToken.setId(null);
+        updateToken.setUsername(null);
+        return Result.ok(updateToken, "refresh success");
     }
     
 }
