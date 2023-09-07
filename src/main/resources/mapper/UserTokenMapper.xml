@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yi.blogj.dao.UserTokenDao">
+    <select id="findByUsername" resultType="com.yi.blogj.model.UserToken">
+        select
+            access_token, refresh_token, username, issue_time
+        from 
+            user_token
+        where 
+            username = #{username}
+    </select>
+    <select id="findByAccessToken" resultType="com.yi.blogj.model.UserToken">
+        select
+            access_token, refresh_token, username, issue_time
+        from
+            user_token
+        where
+            access_token = #{accessToken}
+    </select>
+
+    <insert id="create" parameterType="com.yi.blogj.model.UserToken" flushCache="true" useGeneratedKeys="true">
+        insert into
+            user_token(access_token, refresh_token, username, issue_time)
+        values 
+            (#{accessToken}, #{refreshToken}, #{username}, #{issueTime})
+    </insert>
+
+    <update id="update" parameterType="com.yi.blogj.model.UserToken" flushCache="true">
+        update user_token set access_token = #{accessToken}, refresh_token=#{refreshToken}, issue_time=#{issueTime} where username = #{username}
+    </update>
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yi.blogj.dao.UserDao">
+    <select id="findUserByUsername" resultType="com.yi.blogj.model.User">
+        select
+            id, username, password, enabled, account_non_expired, credentials_non_expired, account_non_locked
+        from 
+            user
+        where 
+            username = #{username}
+    </select>
+
+    <insert id="register" parameterType="com.yi.blogj.model.User" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+        insert into 
+            user(username, password, enabled, account_non_expired, credentials_non_expired, account_non_locked)
+        values 
+            (#{username}, #{password}, #{enabled}, #{accountNonExpired}, #{credentialsNonExpired}, #{accountNonLocked})
+    </insert>
+</mapper>

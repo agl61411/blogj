@@ -6,46 +6,44 @@ use blog;
 
 drop table if exists account;
 
-create table `account` (
-    `id` bigint(20) not null auto_increment,
+create table `user` (
+    `id` int not null auto_increment,
     `creationtime` datetime default current_timestamp comment '创建时间',
     `modifiedtime` datetime default current_timestamp on update current_timestamp comment '更新时间',
-    `deprecated` tinyint(1) unsigned not null default '0' comment '是否弃用 0否 1是',
     `username` varchar(50) not null default '' comment '手机号 邮箱 用户名或第三方应用的唯一标识',
     `password` varchar(255) not null default '' comment '密码',
-    `nickname` varchar(50) not null default '' comment '昵称',
-    `avatar` varchar(255) default null comment '头像地址',
+    `enabled` tinyint(1) unsigned not null comment '是否弃用 0否 1是',
+    `account_non_expired` tinyint(1) unsigned not null comment '是否弃用 0否 1是',
+    `credentials_non_expired` tinyint(1) unsigned not null comment '是否弃用 0否 1是',
+    `account_non_locked` tinyint(1) unsigned not null comment '是否弃用 0否 1是',
     primary key (`id`),
     unique key `username` (`username`)
-) engine=innodb default charset=utf8mb4 comment='账号表';
+) engine=innodb default charset=utf8mb4 comment='用户表';
 
-drop table if exists account_token;
+drop table if exists user_token;
 
-create table `account_token` (
-    `id` bigint(20) not null auto_increment,
-    `creationtime` datetime default current_timestamp comment '创建时间',
-    `modifiedtime` datetime default current_timestamp on update current_timestamp comment '更新时间',
-    `deprecated` tinyint(1) unsigned not null default '0' comment '是否弃用 0否 1是',
+create table `user_token` (
     `username` varchar(50) not null default '' comment '手机号 邮箱 用户名或第三方应用的唯一标识',
-    `access_token` text comment '密码',
-    `refresh_token` text comment '昵称',
-    primary key (`id`),
-    unique key `username` (`username`)
+    `access_token` char(36) comment '',
+    `refresh_token` char(36) comment '',
+    `issue_time` datetime comment '分发时间',
+    primary key (`username`)
 ) engine=innodb default charset=utf8mb4 comment='token表';
 
-drop table if exists blog;
+drop table if exists record;
 
-create table `blog` (
-    `id` bigint(20) not null auto_increment,
+create table `record` (
+    `id` int not null auto_increment,
     `creationtime` datetime default current_timestamp comment '创建时间',
     `modifiedtime` datetime default current_timestamp on update current_timestamp comment '更新时间',
     `deprecated` tinyint(1) unsigned not null default '0' comment '是否弃用 0否 1是',
     `title` varchar(50) comment '标题',
     `content` text comment '内容',
     `tags` varchar(255) comment '标签',
-    `account_id` bigint(20) not null comment '关联用户',
+    `user_id` int not null comment '关联用户',
+    `record_time` date comment '',
     primary key (`id`)
-) engine=innodb default charset=utf8mb4 comment='blog';
+) engine=innodb default charset=utf8mb4 comment='record';
 
 drop table if exists diary;
 
