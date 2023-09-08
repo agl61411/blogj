@@ -1,37 +1,54 @@
 package com.yi.blogj.dto;
 
-import com.yi.blogj.enums.RConstants;
+import org.springframework.http.HttpStatus;
 
 public class Result {
-    private Integer code;
-    private String msg;
+    private int code;
+    private String errMsg;
     private Object data;
 
-    private Result(Integer code, String msg, Object data) {
+    public static Result ok(String errMsg, Object data) {
+        return new Result(HttpStatus.OK.value(), errMsg, data);
+    }
+    public static Result ok(Object data) {
+        return ok(HttpStatus.OK.name(), data);
+    }
+    public static Result ok() {
+        return Result.ok(null);
+    }
+    public static Result fail(int code, String errMsg) {
+        return new Result(code, errMsg, null);
+    }
+    public static Result fail(String errMsg) {
+        return Result.fail(HttpStatus.INTERNAL_SERVER_ERROR.value(), errMsg);
+    }
+    public static Result fail() {
+        return Result.fail(HttpStatus.INTERNAL_SERVER_ERROR.name());
+    }
+
+    public Result() {
+    }
+
+    public Result(int code, String errMsg, Object data) {
         this.code = code;
-        this.msg = msg;
+        this.errMsg = errMsg;
         this.data = data;
     }
 
-    private Result() {}
+    public int getCode() {
+        return code;
+    }
 
-    public static Result ok(String msg) {
-        return new Result(RConstants.OK.getCode(), msg, null);
+    public void setCode(int code) {
+        this.code = code;
     }
-    public static Result ok(Object data, String msg) {
-        return new Result(RConstants.OK.getCode(), msg, data);
+
+    public String getErrMsg() {
+        return errMsg;
     }
-    public static Result ok(Object data) {
-        return new Result(RConstants.OK.getCode(), RConstants.OK.getMsg(), data);
-    }
-    public static Result fail() {
-        return new Result(RConstants.FAIL.getCode(), RConstants.FAIL.getMsg(), null);
-    }
-    public static Result fail(Integer code, String msg) {
-        return new Result(code, msg, null);
-    }
-    public static Result fail(String msg) {
-        return new Result(RConstants.FAIL.getCode(), msg, null);
+
+    public void setErrMsg(String errMsg) {
+        this.errMsg = errMsg;
     }
 
     public Object getData() {
@@ -40,21 +57,5 @@ public class Result {
 
     public void setData(Object data) {
         this.data = data;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
     }
 }

@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
             } else {
                 userTokenDao.update(userToken);
             }
-            result = Result.ok(userToken, "登录成功");
+            result = Result.ok(userToken);
         }
         return result;
     }
@@ -91,76 +91,17 @@ public class UserServiceImpl implements UserService {
         Result result;
         UserToken unknown = userTokenDao.findByUsername(userToken.getUsername());
         if (unknown == null) {
-            result = Result.fail(40001, "无效token");
+            result = Result.fail("无效token");
         }
         else if (!unknown.getRefreshToken().equals(userToken.getRefreshToken())) {
-            result = Result.fail(40001, "无效token");
+            result = Result.fail("无效token");
         }
         else {
             UserToken refreshToken = new UserToken(userToken.getUsername(), UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Date());
             userTokenDao.update(refreshToken);
-            result = Result.ok(refreshToken, "刷新成功");
+            result = Result.ok(refreshToken);
         }
         return result;
     }
 
-//    @Override
-//    public Result login(LoginDto login) {
-//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
-//        Authentication authenticate = authenticationManager.authenticate(token);
-//
-//        Result result = null;
-//        if (authenticate == null) {
-//            result = Result.fail("登录失败");
-//        }
-//
-//        Account account = accountDao.findAccountByUsername(login.getUsername());
-//        account.setPassword(null);
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        map.put("account", new Gson().toJson(account));
-//        AccountToken accountToken = JwtUtil.create(login.getUsername(), map, null);
-//
-//        AccountToken aToken = accountTokenDao.findByUsername(login.getUsername());
-//        if (aToken == null) {
-//            accountTokenDao.create(accountToken);
-//        } else {
-//            accountTokenDao.update(accountToken);
-//        }
-//
-//        accountToken.setId(null);
-//        accountToken.setUsername(null);
-//
-//        result = Result.ok(accountToken, "登录成功");
-//        return result;
-//    }
-//
-//    @Override
-//    public Result logout() {
-//        Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        accountTokenDao.update(new AccountToken(null, null, account.getUsername()));
-//        return Result.ok("登出成功");
-//    }
-//
-//    @Override
-//    public Result profile() {
-//        Account account = (Account) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        return Result.ok(accountDao.findAccountById(account.getId()));
-//    }
-//
-//    @Override
-//    public Result refreshToken(String jwt) {
-//        Claims claims = JwtUtil.parse(jwt);
-//        AccountToken accountToken = accountTokenDao.findByUsername(claims.getSubject());
-//
-//        Account account = accountDao.findAccountByUsername(accountToken.getUsername());
-//        account.setPassword(null);
-//        Map<String, Object> map = new HashMap<String, Object>();
-//        map.put("account", new Gson().toJson(account));
-//        AccountToken updateToken = JwtUtil.create(account.getUsername(), map, null);
-//        accountTokenDao.update(updateToken);
-//        updateToken.setId(null);
-//        updateToken.setUsername(null);
-//        return Result.ok(updateToken, "refresh success");
-//    }
-    
 }

@@ -34,7 +34,7 @@ public class UserController {
     @GetMapping("/profile")
     public Result profile() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return Result.ok(user, "123");
+        return Result.ok(user);
     }
 
     @PostMapping("/logout")

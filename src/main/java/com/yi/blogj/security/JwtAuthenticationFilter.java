@@ -52,26 +52,25 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         String bearer = request.getHeader("Authorization");
         String accessToken = bearer.substring("Bearer ".length());
         if (!StringUtils.hasLength(accessToken)) {
-            throw new BadCredentialsException("请先登录");
+            handleError(response, Result.fail("请先登录"));
+            return;
         }
         UserToken userToken = userTokenDao.findByAccessToken(accessToken);
         if (userToken == null) {
-            log.warn("无效token: " + accessToken);
-            handleError(response, 40003, "无效token");
+            handleError(response, Result.fail("无效token"));
         } else {
             Date now = new Date();
             boolean accessExpire = now.getTime() - userToken.getIssueTime().getTime() > 24 * 60 * 60 * 1000;
             boolean refreshExpire = now.getTime() - userToken.getIssueTime().getTime() > 24 * 60 * 60 * 1000 * 7;
             if (accessExpire && refreshExpire) {
-                log.warn("过期token: " + accessToken);
-                handleError(response, 40002, "登录过期");
+                handleError(response, Result.fail("无效token"));
             }
             else if (accessExpire) {
                 if ("/user/refreshToken".equals(request.getRequestURI())) {
                     chain.doFilter(request, response);
                     return;
                 }
-                handleError(response, 40001, "登录过期");
+                handleError(response, Result.fail(401, "token过期"));
             } else {
                 User user = userDao.findUserByUsername(userToken.getUsername());
                 user.setPassword(null);
@@ -83,10 +82,10 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         }
     }
 
-    private void handleError(HttpServletResponse response, int code, String msg) throws IOException {
+    private void handleError(HttpServletResponse response, Result result) throws IOException {
         response.setStatus(401);
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json;charset=utf-8");
-        response.getWriter().write(new Gson().toJson(Result.fail(code, msg)));
+        response.getWriter().write(new Gson().toJson(result));
     }
 }
