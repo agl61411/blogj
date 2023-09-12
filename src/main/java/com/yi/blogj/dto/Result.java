@@ -2,7 +2,10 @@ package com.yi.blogj.dto;
 
 import org.springframework.http.HttpStatus;
 
-public class Result {
+import java.io.Serializable;
+
+public class Result implements Serializable {
+    private static final long serialVersionUID = -4235446459478416608L;
     private int code;
     private String errMsg;
     private Object data;

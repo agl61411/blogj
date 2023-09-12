@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yi.blogj.dao.RecordDao">
+    <select id="findByTime" resultType="com.yi.blogj.model.Record">
+        select
+            id, title, content, tags, record_time
+        from 
+            record
+        where
+            user_id = #{userId} and record_time = #{recordTime}
+    </select>
+
+    <insert id="create" parameterType="com.yi.blogj.model.Record" flushCache="true" useGeneratedKeys="true" keyProperty="id">
+        insert into
+            record
+            (
+                <if test="title != null">title,</if>
+                <if test="content != null">content,</if>
+                <if test="tags != null">tags,</if>
+                <if test="recordTime != null">record_time,</if>
+                user_id
+            )
+        values 
+            (
+                <if test="title != null">#{title},</if>
+                <if test="content != null">#{content},</if>
+                <if test="tags != null">#{tags},</if>
+                <if test="recordTime != null">#{recordTime},</if>
+                #{userId}
+            )
+    </insert>
+
+    <update id="update" parameterType="com.yi.blogj.model.Record" flushCache="true">
+        update record
+            <set>
+                <if test="title != null">title = #{title},</if>
+                <if test="content != null">content = #{content},</if>
+                <if test="tags != null">tags = #{tags}</if>
+            </set>
+        where
+            user_id = #{userId} and id = #{id}
+    </update>
+
+    <resultMap id="resultList" type="com.yi.blogj.model.Record" />
+    <resultMap id="count" type="java.lang.Integer" autoMapping="true" />
+    <select id="search" resultMap="resultList, count">
+        select
+            id, title, content, tags, record_time
+        from
+            record
+        where
+            user_id = #{userId} and record_time <![CDATA[ >= ]]> #{start} and record_time <![CDATA[ <= ]]> #{end}
+        limit
+            #{page}, #{size};
+        select FOUND_ROWS() as count;
+    </select>
+</mapper>

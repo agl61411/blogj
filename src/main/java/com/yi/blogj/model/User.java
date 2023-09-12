@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class User implements UserDetails, Serializable {
     private static final long serialVersionUID = -3201690764990642124L;
-    private int id;
+    private Integer id;
     private Date creationtime;
     private Date modifiedtime;
     private String username;
@@ -32,11 +32,11 @@ public class User implements UserDetails, Serializable {
         this.accountNonLocked = true;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -36,24 +36,10 @@ create table `record` (
     `id` int not null auto_increment,
     `creationtime` datetime default current_timestamp comment '创建时间',
     `modifiedtime` datetime default current_timestamp on update current_timestamp comment '更新时间',
-    `deprecated` tinyint(1) unsigned not null default '0' comment '是否弃用 0否 1是',
     `title` varchar(50) comment '标题',
-    `content` text comment '内容',
+    `content` varchar(1000) comment '内容',
     `tags` varchar(255) comment '标签',
     `user_id` int not null comment '关联用户',
-    `record_time` date comment '',
+    `record_time` date not null comment '',
     primary key (`id`)
 ) engine=innodb default charset=utf8mb4 comment='record';
-
-drop table if exists diary;
-
-create table `diary` (
-    `id` bigint(20) not null auto_increment,
-    `creationtime` datetime default current_timestamp comment '创建时间',
-    `modifiedtime` datetime default current_timestamp on update current_timestamp comment '更新时间',
-    `deprecated` tinyint(1) unsigned not null default '0' comment '是否弃用 0否 1是',
-    `content` text comment '内容',
-    `diary_time` date not null comment '日志时间',
-    `account_id` bigint(20) not null comment '关联用户',
-    primary key (`id`)
-) engine=innodb default charset=utf8mb4 comment='diary';
